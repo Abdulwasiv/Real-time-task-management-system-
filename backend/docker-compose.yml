@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_learn
+    restart: always
+    environment:
+      POSTGRES_DB: learn
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mariadb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+  web:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+
+volumes:
+  postgres-db:
